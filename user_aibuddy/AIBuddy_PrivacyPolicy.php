@@ -620,8 +620,8 @@ if (isset($_SESSION['userid'])) {
                 <div class="footer-column">
                     <h3>Legal</h3>
                     <ul>
-                        <li><a href="AIBuddy_Terms of Service.html">Terms of Service</a></li>
-                        <li><a href="AIBuddy_PrivacyPolicy.html">Privacy Policy</a></li>
+                        <li><a href="AIBuddy_Terms of Service.php">Terms of Service</a></li>
+                        <li><a href="AIBuddy_PrivacyPolicy.php">Privacy Policy</a></li>
                         <li><a href="#">Cookie Policy</a></li>
                         <li><a href="#">Disclaimer</a></li>
                     </ul>
