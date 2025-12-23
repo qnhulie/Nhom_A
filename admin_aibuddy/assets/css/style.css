@@ -1,0 +1,229 @@
+/* assets/css/style.css */
+
+/* 1. SAO CHÉP Y NGUYÊN BẢNG MÀU TỪ CODE MẪU BẠN GỬI */
+:root {
+    --primary-dark: #01161e;      /* Xanh đen (Dùng cho Footer) */
+    --primary: #124559;           /* XANH DƯƠNG ĐẬM (Màu chủ đạo) */
+    --primary-light: #598392;     /* Xanh xám */
+    --accent: #33c6e7;            /* XANH SÁNG (Dùng cho Nút/Điểm nhấn) */
+    --light: #aec3b0;             /* Màu viền nhạt */
+    --background: #eff6e0;        /* Nền trang (Hơi xanh nhẹ) */
+    --white: #ffffff;
+    --gray: #d9d9d9;
+    --text: #353535;
+    
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --radius: 10px;
+    --sidebar-width: 260px;
+}
+
+/* 2. CẤU HÌNH CƠ BẢN */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background); /* Áp dụng nền xanh nhạt giống mẫu */
+    color: var(--text);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* 3. SIDEBAR (MENU TRÁI) */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--white);
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 25px;
+    border-right: 1px solid var(--light);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.sidebar .brand {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary); /* Logo màu Xanh Đậm */
+    text-align: center;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sidebar a {
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 15px;
+    color: var(--primary); /* Chữ menu màu Xanh Đậm */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.3s;
+    font-weight: 500;
+    border-left: 4px solid transparent;
+}
+
+.sidebar a i {
+    width: 25px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    /* ... các thuộc tính cũ ... */
+    background-color: #ffffff; /* Màu nền sidebar */
+}
+
+/* Style chung cho các link trong sidebar */
+.sidebar a, 
+.sidebar-submenu summary {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #555; /* Màu chữ mặc định */
+    font-weight: 500;
+    border-radius: 8px; /* Bo góc mềm mại */
+    margin: 5px 10px; /* Khoảng cách giữa các mục */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà */
+    cursor: pointer;
+}
+
+.sidebar i {
+    margin-right: 12px;
+    font-size: 1.1rem;
+    width: 20px; /* Cố định chiều rộng icon để chữ thẳng hàng */
+    text-align: center;
+}
+
+/* --- HIỆU ỨNG HOVER (Khi di chuột vào) --- */
+.sidebar a:hover, 
+.sidebar-submenu summary:hover {
+    background-color: #f0f4f8; /* Màu nền sáng nhẹ */
+    color: #124559; /* Màu chữ chính (Primary Dark) */
+    font-weight: 700; /* In đậm chữ */
+    transform: translateX(5px); /* Dịch chuyển nhẹ sang phải */
+}
+
+/* --- HIỆU ỨNG ACTIVE (Khi đang chọn) --- */
+.sidebar a.active, 
+.sidebar-submenu a.active {
+    background-color: #124559; /* Màu nền active (Primary) */
+    color: #ffffff !important; /* Màu chữ trắng */
+    font-weight: 700; /* In đậm */
+    box-shadow: 0 4px 6px rgba(18, 69, 89, 0.2); /* Đổ bóng nhẹ */
+}
+
+/* Icon khi active cũng phải trắng */
+.sidebar a.active i, 
+.sidebar-submenu a.active i {
+    color: #ffffff;
+}
+
+/* --- Xử lý Submenu (Dropdown) --- */
+.sidebar-submenu {
+    margin: 5px 10px;
+}
+
+.sidebar-submenu summary {
+    list-style: none; /* Ẩn mũi tên mặc định */
+    margin: 0;
+}
+
+/* Link con bên trong submenu */
+.sidebar-submenu a {
+    padding-left: 45px; /* Thụt đầu dòng cho link con */
+    font-size: 0.95rem;
+    margin: 2px 0;
+}
+
+/* Khi hover vào link con */
+.sidebar-submenu a:hover {
+    background-color: #e3f2fd; /* Màu nền khác một chút cho cấp con */
+    color: #124559;
+}
+
+/* 4. NỘI DUNG CHÍNH (MAIN CONTENT) */
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 30px;
+}
+
+/* 5. TOP NAVBAR */
+.top-navbar {
+    background: var(--white);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    border-bottom: 1px solid var(--light);
+}
+
+/* 6. THẺ CARD (GIỐNG CLASS .card TRONG MẪU) */
+.card-box {
+    background-color: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    padding: 25px;
+    transition: transform 0.3s ease;
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.card-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Icon tròn trong Card */
+.icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* Nền Icon màu Xanh Sáng nhạt */
+    background-color: rgba(51, 198, 231, 0.2); 
+    color: var(--primary); /* Icon màu Xanh Đậm */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.card-box p {
+    color: var(--primary-light);
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.card-box h3 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 5px 0 0 0;
+    color: var(--primary); /* Số liệu màu Xanh Đậm */
+}
+
+/* 7. TIÊU ĐỀ TRANG */
+h2 {
+    color: var(--primary); /* Tiêu đề màu Xanh Đậm */
+}
+
+/* 8. RESPONSIVE */
+@media (max-width: 768px) {
+    .sidebar { width: 70px; }
+    .sidebar .brand span, .sidebar a span { display: none; }
+    .main-content, .top-navbar { margin-left: 70px; }
+    .sidebar a { justify-content: center; padding: 15px; }
+}
+
+
