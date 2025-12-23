@@ -339,8 +339,7 @@ CREATE TABLE `plan` (
 INSERT INTO `plan` (`PlanID`, `PlanName`, `PlanDescription`, `PlanPrice`, `BillingCycle`, `PlanVideoURL`) VALUES
 (1, 'Free', 'Basic features available (2 trials)', 0.00, 'Daily', 'https://www.youtube.com/watch?v=bXyPSlZPDiY'),
 (2, 'Essential', 'Unlock advanced featured.', 99000.00, 'Monthly', 'https://www.youtube.com/watch?v=hpomJDXnHZE'),
-(3, 'Premium Vip', 'Unlocked exclusive feature. ???', 980000.00, 'Monthly', ''),
-(8, 'Gói cao cấp', 'cao cấp', 10000000.00, 'Daily', '');
+(3, 'Premium Vip', 'Unlocked exclusive feature.', 999000.00, 'Monthly', ''),
 
 -- --------------------------------------------------------
 
