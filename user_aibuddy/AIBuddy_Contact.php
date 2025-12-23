@@ -7,8 +7,8 @@ $errorMsg = null;
 
 /* 1. BẮT BUỘC PHẢI ĐĂNG NHẬP */
 if (!isset($_SESSION['userid'])) {
-    header("Location: AIBuddy_SignIn.php");
-    exit;
+  header("Location: AIBuddy_SignIn.php");
+  exit;
 }
 
 $userID = $_SESSION['userid'];
@@ -23,33 +23,33 @@ $currentUserName = $userData ? $userData['UserName'] : 'User';
 /* 2. XỬ LÝ GỬI FORM (INSERT VÀO BẢNG REPORT) */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $topic   = trim($_POST['topic'] ?? ''); // Map vào ReportType
-    $content = trim($_POST['content'] ?? ''); // Map vào ReportContent
+  $topic = trim($_POST['topic'] ?? ''); // Map vào ReportType
+  $content = trim($_POST['content'] ?? ''); // Map vào ReportContent
 
-    if ($topic === '' || $content === '') {
-        $errorMsg = "Please fill in all required fields.";
-    } else {
-        // SQL Insert theo cấu trúc bảng report trong ảnh
-        // ReportStartTime, ReportEndTime, ReportTime đều lấy thời gian hiện tại cho khớp data mẫu
-        $stmt = $conn->prepare("
+  if ($topic === '' || $content === '') {
+    $errorMsg = "Please fill in all required fields.";
+  } else {
+    // SQL Insert theo cấu trúc bảng report trong ảnh
+    // ReportStartTime, ReportEndTime, ReportTime đều lấy thời gian hiện tại cho khớp data mẫu
+    $stmt = $conn->prepare("
             INSERT INTO report 
             (UserID, AdminID, ReportType, ReportContent, ReportStartTime, ReportEndTime, ReportTime, Status, AdminResponse) 
             VALUES (?, NULL, ?, ?, NOW(), NOW(), NOW(), 'Pending', NULL)
         ");
 
-        if ($stmt) {
-            $stmt->bind_param("iss", $userID, $topic, $content);
-            
-            if ($stmt->execute()) {
-                $successMsg = "Your report has been submitted successfully.";
-            } else {
-                $errorMsg = "Error sending report: " . $stmt->error;
-            }
-            $stmt->close();
-        } else {
-            $errorMsg = "Database error: " . $conn->error;
-        }
+    if ($stmt) {
+      $stmt->bind_param("iss", $userID, $topic, $content);
+
+      if ($stmt->execute()) {
+        $successMsg = "Your report has been submitted successfully.";
+      } else {
+        $errorMsg = "Error sending report: " . $stmt->error;
+      }
+      $stmt->close();
+    } else {
+      $errorMsg = "Database error: " . $conn->error;
     }
+  }
 }
 
 /* 3. LẤY LỊCH SỬ REPORT & PHẢN HỒI CỦA ADMIN */
@@ -149,19 +149,19 @@ $resultHistory = $stmtHistory->get_result();
     }
 
     .user-greeting-badge {
-        background-color: var(--background);
-        color: var(--primary);
-        padding: 8px 20px;
-        border-radius: 20px;
-        font-size: 15px;
-        font-weight: 500;
-        border: 1px solid var(--primary);
-        display: inline-block;
+      background-color: var(--background);
+      color: var(--primary);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid var(--primary);
+      display: inline-block;
     }
 
     .user-greeting-badge strong {
-        color: var(--accent);
-        font-weight: 700;
+      color: var(--accent);
+      font-weight: 700;
     }
 
     /* Page Hero */
@@ -360,108 +360,221 @@ $resultHistory = $stmtHistory->get_result();
 
     /* === REPORT HISTORY TABLE === */
     .history-section {
-        margin-top: 50px;
-        background: var(--white);
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: var(--card-shadow);
+      margin-top: 50px;
+      background: var(--white);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
     }
+
     .history-section h2 {
-        color: var(--primary);
-        margin-bottom: 20px;
-        border-bottom: 2px solid var(--background);
-        padding-bottom: 10px;
+      color: var(--primary);
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--background);
+      padding-bottom: 10px;
     }
+
     .report-table {
-        width: 100%;
-        border-collapse: collapse;
+      width: 100%;
+      border-collapse: collapse;
     }
-    .report-table th, .report-table td {
-        padding: 12px 15px;
-        border-bottom: 1px solid var(--gray);
-        text-align: left;
+
+    .report-table th,
+    .report-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--gray);
+      text-align: left;
     }
+
     .report-table th {
-        background-color: var(--primary);
-        color: var(--white);
+      background-color: var(--primary);
+      color: var(--white);
     }
+
     .report-table tr:hover {
-        background-color: #f9f9f9;
+      background-color: #f9f9f9;
     }
+
     .status-badge {
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-size: 0.85rem;
-        font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
     }
-    .status-pending { background-color: #fff3cd; color: #856404; }
-    .status-processed { background-color: #d1ecf1; color: #0c5460; }
-    .status-resolved { background-color: #d4edda; color: #155724; }
-    
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-processed {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .status-resolved {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
     .admin-reply {
-        font-style: italic;
-        color: var(--primary);
-        font-weight: 500;
-        margin-top: 5px;
-        display: block;
-        background: #f0f8ff;
-        padding: 8px;
-        border-radius: 5px;
-        border-left: 3px solid var(--accent);
+      font-style: italic;
+      color: var(--primary);
+      font-weight: 500;
+      margin-top: 5px;
+      display: block;
+      background: #f0f8ff;
+      padding: 8px;
+      border-radius: 5px;
+      border-left: 3px solid var(--accent);
     }
 
     /* Footer */
+
     footer {
+
       background-color: var(--primary-dark);
+
       color: var(--white);
+
       padding: 60px 0 20px;
+
+      margin-top: 60px;
+
     }
+
+
 
     .footer-content {
+
       display: grid;
+
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
       gap: 40px;
+
       margin-bottom: 40px;
+
     }
+
+
 
     .footer-column h3 {
+
       font-size: 1.2rem;
+
       margin-bottom: 20px;
+
       color: var(--accent);
+
     }
+
+
 
     .footer-column ul {
+
       list-style: none;
+
     }
+
+
 
     .footer-column ul li {
+
       margin-bottom: 10px;
+
     }
+
+
 
     .footer-column ul li a {
+
       color: var(--light);
+
       text-decoration: none;
+
       transition: color 0.3s;
+
     }
+
+
 
     .footer-column ul li a:hover {
+
       color: var(--accent);
+
     }
 
+
+
     .copyright {
+
       text-align: center;
+
       padding-top: 20px;
+
       border-top: 1px solid var(--primary);
+
       color: var(--light);
+
       font-size: 0.9rem;
+
     }
+
+
+
+
+    .social-links {
+
+      display: flex;
+
+      gap: 15px;
+
+      margin-top: 15px;
+
+    }
+
+
+
+    .social-links a {
+
+      color: var(--light);
+
+      font-size: 1.2rem;
+
+      transition: color 0.3s;
+
+    }
+
+
+
+    .social-links a:hover {
+
+      color: var(--accent);
+
+    }
+
+
 
     /* Responsive */
     @media (max-width: 768px) {
-      .header-content { flex-direction: column; text-align: center; }
-      nav { margin: 15px 0; }
-      .contact-container { grid-template-columns: 1fr; }
-      .report-table { display: block; overflow-x: auto; }
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav {
+        margin: 15px 0;
+      }
+
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+
+      .report-table {
+        display: block;
+        overflow-x: auto;
+      }
     }
   </style>
 </head>
@@ -469,7 +582,7 @@ $resultHistory = $stmtHistory->get_result();
 <body>
   <header>
     <div class="container header-content">
-      <a  class="logo">
+      <a class="logo">
         <span class="logo-icon">🤖</span> AI Buddy
       </a>
       <nav>
@@ -499,7 +612,7 @@ $resultHistory = $stmtHistory->get_result();
 
   <section class="contact-section">
     <div class="container">
-        
+
       <div class="contact-container">
         <div class="contact-info">
           <h2>Get in Touch</h2>
@@ -559,58 +672,68 @@ $resultHistory = $stmtHistory->get_result();
       </div>
 
       <div class="history-section">
-          <h2>Your Reports & Responses</h2>
-          <?php if ($resultHistory->num_rows > 0): ?>
-              <table class="report-table">
-                  <thead>
-                      <tr>
-                          <th>Date</th>
-                          <th>Type</th>
-                          <th>Content</th>
-                          <th>Status</th>
-                          <th>Admin Response</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <?php while ($row = $resultHistory->fetch_assoc()): ?>
-                          <?php 
-                              // Xác định class màu sắc cho Status
-                              $statusClass = 'status-pending';
-                              if ($row['Status'] == 'Processed') $statusClass = 'status-processed';
-                              if ($row['Status'] == 'Resolved') $statusClass = 'status-resolved';
-                          ?>
-                          <tr>
-                              <td style="white-space:nowrap;"><?= date('Y-m-d H:i', strtotime($row['ReportTime'])) ?></td>
-                              <td><strong><?= htmlspecialchars($row['ReportType']) ?></strong></td>
-                              <td><?= nl2br(htmlspecialchars($row['ReportContent'])) ?></td>
-                              <td><span class="status-badge <?= $statusClass ?>"><?= htmlspecialchars($row['Status']) ?></span></td>
-                              <td>
-                                  <?php if (!empty($row['AdminResponse']) && $row['AdminResponse'] !== 'NULL'): ?>
-                                      <span class="admin-reply">
-                                          <i class="fas fa-user-shield"></i> <?= nl2br(htmlspecialchars($row['AdminResponse'])) ?>
-                                      </span>
-                                  <?php else: ?>
-                                      <span style="color:#999; font-style:italic;">Waiting for response...</span>
-                                  <?php endif; ?>
-                              </td>
-                          </tr>
-                      <?php endwhile; ?>
-                  </tbody>
-              </table>
-          <?php else: ?>
-              <p style="text-align:center; color:#666;">You haven't submitted any reports yet.</p>
-          <?php endif; ?>
+        <h2>Your Reports & Responses</h2>
+        <?php if ($resultHistory->num_rows > 0): ?>
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Content</th>
+                <th>Status</th>
+                <th>Admin Response</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while ($row = $resultHistory->fetch_assoc()): ?>
+                <?php
+                // Xác định class màu sắc cho Status
+                $statusClass = 'status-pending';
+                if ($row['Status'] == 'Processed')
+                  $statusClass = 'status-processed';
+                if ($row['Status'] == 'Resolved')
+                  $statusClass = 'status-resolved';
+                ?>
+                <tr>
+                  <td style="white-space:nowrap;"><?= date('Y-m-d H:i', strtotime($row['ReportTime'])) ?></td>
+                  <td><strong><?= htmlspecialchars($row['ReportType']) ?></strong></td>
+                  <td><?= nl2br(htmlspecialchars($row['ReportContent'])) ?></td>
+                  <td><span class="status-badge <?= $statusClass ?>"><?= htmlspecialchars($row['Status']) ?></span></td>
+                  <td>
+                    <?php if (!empty($row['AdminResponse']) && $row['AdminResponse'] !== 'NULL'): ?>
+                      <span class="admin-reply">
+                        <i class="fas fa-user-shield"></i> <?= nl2br(htmlspecialchars($row['AdminResponse'])) ?>
+                      </span>
+                    <?php else: ?>
+                      <span style="color:#999; font-style:italic;">Waiting for response...</span>
+                    <?php endif; ?>
+                  </td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        <?php else: ?>
+          <p style="text-align:center; color:#666;">You haven't submitted any reports yet.</p>
+        <?php endif; ?>
       </div>
 
     </div>
   </section>
 
+  <!-- Footer -->
+
   <footer>
+
     <div class="container">
+
       <div class="footer-content">
+
         <div class="footer-column">
+
           <h3>AI Buddy</h3>
+
           <p>Your companion for mental wellness with intelligent AI support and personalized care.</p>
+
           <div class="social-links">
 
             <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -624,9 +747,13 @@ $resultHistory = $stmtHistory->get_result();
           </div>
 
         </div>
+
         <div class="footer-column">
+
           <h3>Quick Links</h3>
+
           <ul>
+
             <li><a href="AIBuddy_Homepage.php">Home</a></li>
 
             <li><a href="AIBuddy_Chatbot.php">Chatbot</a></li>
@@ -636,38 +763,59 @@ $resultHistory = $stmtHistory->get_result();
             <li><a href="AIBuddy_Trial.php">Trial</a></li>
 
             <li><a href="AIBuddy_Contact.php">Contact</a></li>
+
           </ul>
+
         </div>
+
         <div class="footer-column">
+
           <h3>Legal</h3>
+
           <ul>
+
             <li><a href="AIBuddy_Terms of Service.php">Terms of Service</a></li>
+
             <li><a href="AIBuddy_PrivacyPolicy.php">Privacy Policy</a></li>
-    
 
-            <li><a href="AIBuddy_Terms of Service.php">Cookie Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
 
-            <li><a href="AIBuddy_Terms of Service.php">Disclaimer</a></li>
+            <li><a href="#">Disclaimer</a></li>
+
           </ul>
+
         </div>
+
         <div class="footer-column">
+
           <h3>Contact</h3>
+
           <ul>
-          <li><i class="fas fa-map-marker-alt"></i> 123 Wellness Street, Mindful District, CA 90210</li>
+
+            <li><i class="fas fa-map-marker-alt"></i> 123 Wellness Street, Mindful District, CA 90210</li>
 
             <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
 
             <li><i class="fas fa-envelope"></i> support@aibuddy.com</li>
 
             <li><i class="fas fa-clock"></i> Mon-Fri: 8:00 AM - 8:00 PM</li>
+
           </ul>
+
         </div>
+
       </div>
+
       <div class="copyright">
-        <p>&copy; 2025 AI Buddy. All rights reserved.</p>
+
+        <p>&copy; 2025 AI Buddy. All rights reserved. | Mental Health Companion</p>
+
       </div>
+
     </div>
+
   </footer>
 
 </body>
+
 </html>
